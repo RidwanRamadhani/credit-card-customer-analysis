@@ -1,0 +1,948 @@
+# PROJECT: SISTEM ANALISIS & EKSPLORASI DATA KARTU KREDIT NASABAH
+
+Buatkan sebuah aplikasi web interaktif berbasis Python Streamlit dengan desain modern, profesional, responsif, menarik, dan mudah digunakan untuk keperluan tugas individu mata kuliah Praktikum Pengolahan dan Analisis Data.
+
+Aplikasi harus dibuat berdasarkan dataset lokal bernama **`Credit Card Customer Data.csv`** dan menggabungkan fitur-fitur utama dari materi praktikum Bab 1 dan Bab 2.
+
+Dan di dalam web tersebut tambahkan nama penyusun kelompok 5 dengan nama - nama :
+Sihabudin Firmansyah	241011400486
+Ridwan Ramadhani	241011400477
+Dendi Bayu Saputra	241011400468
+Program Studi Teknik Informatika, Semester 5
+Universitas Pamulang.
+
+
+**PENTING:**
+- Jangan hanya membuat prototype, mockup, atau desain tampilan.
+- Buat aplikasi yang benar-benar berfungsi dan dapat dijalankan.
+- Seluruh tombol, filter, tabel, grafik, formulir, fitur upload, edit data, reset, dan download harus berfungsi.
+- Gunakan dataset asli yang tersedia, bukan dataset buatan.
+- Jangan menghilangkan fitur yang diminta.
+- Semua fitur utama aplikasi harus berada dalam satu file Python bernama `app.py`.
+- Pastikan aplikasi dapat dijalankan secara lokal dan dipublikasikan secara online melalui GitHub dan Streamlit Community Cloud.
+
+---
+
+## 1. IDENTITAS APLIKASI
+
+Judul aplikasi:
+
+**SISTEM ANALISIS & EKSPLORASI DATA KARTU KREDIT NASABAH**
+
+Identitas mahasiswa:
+- Nama: Muhamad Ridwan Ramadhani
+- NIM: 241011400477
+- Jenis tugas: Tugas Individu
+
+Ketentuan:
+- Tampilkan identitas mahasiswa secara elegan pada halaman utama, sidebar, atau footer.
+- Jangan membuat identitas mahasiswa terlalu mendominasi tampilan dashboard.
+- Gunakan judul aplikasi secara konsisten pada seluruh halaman.
+- Buat aplikasi terlihat seperti dashboard analisis data profesional, bukan sekadar tugas praktikum sederhana.
+
+## 2. TEKNOLOGI YANG DIGUNAKAN
+
+Gunakan teknologi berikut:
+
+- Python sebagai bahasa pemrograman utama.
+- Streamlit sebagai framework aplikasi web.
+- Pandas untuk membaca, mengolah, dan menganalisis dataset.
+- NumPy untuk perhitungan numerik.
+- Matplotlib untuk visualisasi tambahan dan heatmap.
+- Altair untuk grafik interaktif.
+- Plotly Express untuk visualisasi interaktif.
+- Streamlit native components untuk dashboard, navigasi, tabel, formulir, filter, dan pengelolaan data.
+
+Gunakan sintaks Streamlit yang sesuai dengan versi stabil terbaru dan pastikan kompatibel dengan Streamlit Community Cloud.
+
+Komponen Streamlit yang wajib digunakan sesuai kebutuhan:
+- `st.set_page_config`
+- `st.sidebar`
+- `st.title`
+- `st.header`
+- `st.subheader`
+- `st.markdown`
+- `st.columns`
+- `st.metric`
+- `st.dataframe`
+- `st.table`
+- `st.expander`
+- `st.json`
+- `st.selectbox`
+- `st.multiselect`
+- `st.slider`
+- `st.radio`
+- `st.button`
+- `st.form`
+- `st.form_submit_button`
+- `st.file_uploader`
+- `st.data_editor`
+- `st.download_button`
+- `st.session_state`
+- `st.rerun`
+- `st.line_chart`
+- `st.area_chart`
+- `st.bar_chart`
+- `st.pyplot`
+- `st.altair_chart`
+- `st.plotly_chart`
+- `st.success`
+- `st.warning`
+- `st.error`
+- `st.info`
+- `st.spinner`
+
+Jangan sekadar menuliskan komponen tersebut di dalam kode. Pastikan setiap komponen benar-benar digunakan sesuai fungsinya.
+
+## 3. DATASET
+
+Nama dataset:
+
+`Credit Card Customer Data.csv`
+
+Dataset memiliki 660 baris dan 7 kolom dengan nama dan struktur sebagai berikut:
+
+| No. | Nama Kolom | Keterangan |
+|---|---|---|
+| 1 | `Sl_No` | Nomor urut nasabah |
+| 2 | `Customer Key` | Identitas unik nasabah |
+| 3 | `Avg_Credit_Limit` | Rata-rata batas kredit nasabah |
+| 4 | `Total_Credit_Cards` | Jumlah kartu kredit yang dimiliki |
+| 5 | `Total_visits_bank` | Jumlah kunjungan nasabah ke bank |
+| 6 | `Total_visits_online` | Jumlah kunjungan atau akses nasabah melalui layanan online |
+| 7 | `Total_calls_made` | Jumlah panggilan yang dilakukan nasabah ke layanan bank |
+
+Ketentuan pengolahan dataset:
+
+1. Gunakan file `Credit Card Customer Data.csv` sebagai dataset utama.
+2. Gunakan path relatif terhadap lokasi file `app.py`.
+3. Tentukan lokasi file dengan pendekatan yang aman, misalnya menggunakan `Path(__file__).resolve().parent`, sehingga aplikasi tetap dapat menemukan dataset meskipun dijalankan dari working directory yang berbeda.
+4. Gunakan `@st.cache_data` ketika membaca dataset.
+5. Periksa keberadaan file sebelum membaca dataset.
+6. Periksa apakah seluruh kolom wajib tersedia.
+7. Konversikan kolom numerik secara aman menggunakan `pd.to_numeric(..., errors="coerce")`.
+8. Tangani nilai kosong atau `NaN` secara aman.
+9. Periksa dan tampilkan informasi jumlah data duplikat.
+10. Jangan menghapus data secara otomatis tanpa memberikan informasi kepada pengguna.
+11. Jika diperlukan pembersihan data, lakukan pada salinan DataFrame, bukan pada file CSV asli.
+12. Jangan mengubah file CSV asli secara permanen.
+13. Jangan membuat dataset palsu sebagai pengganti dataset asli.
+14. Jangan mengarang hasil analisis, statistik, atau nilai grafik.
+15. Seluruh statistik dan visualisasi harus dihitung berdasarkan dataset yang benar-benar dibaca aplikasi.
+16. Jika file tidak ditemukan, tampilkan `st.error` yang menjelaskan penyebab dan cara memperbaikinya.
+17. Jika struktur kolom tidak sesuai, tampilkan pesan kesalahan yang menjelaskan kolom yang kurang atau tidak sesuai.
+
+Pastikan data asli tetap aman dan tidak tertimpa oleh proses pengolahan aplikasi.
+
+## 4. DESAIN UI/UX APLIKASI
+
+Buat tampilan website dengan konsep **Modern Professional Analytics Dashboard**.
+
+Gunakan karakteristik desain berikut:
+
+- Warna dominan navy blue, putih, dan aksen biru muda.
+- Sidebar menggunakan warna gelap dengan navigasi yang rapi.
+- Area konten utama menggunakan latar belakang terang.
+- Gunakan kartu statistik dengan sudut membulat.
+- Gunakan ikon yang relevan untuk setiap menu dan metrik.
+- Gunakan tipografi modern dan mudah dibaca.
+- Gunakan jarak antarbagian yang konsisten.
+- Gunakan tata letak yang rapi dan tidak terlalu ramai.
+- Grafik dan tabel harus memiliki ukuran proporsional.
+- Gunakan warna grafik secara konsisten.
+- Berikan efek hover yang sederhana apabila diperlukan.
+- Gunakan desain responsif untuk desktop, laptop, tablet, dan perangkat mobile.
+- Pastikan teks memiliki kontras yang baik.
+- Hindari elemen dekoratif berlebihan.
+- Gunakan CSS khusus melalui `st.markdown(..., unsafe_allow_html=True)` apabila diperlukan.
+
+Buat header dashboard yang menampilkan:
+- Judul aplikasi.
+- Deskripsi singkat aplikasi.
+- Informasi bahwa aplikasi digunakan untuk analisis data nasabah kartu kredit.
+
+Tambahkan identitas mahasiswa pada sidebar atau footer.
+
+Jangan menggunakan gambar, audio, video, atau file eksternal lokal yang tidak tersedia di dalam project.
+
+## 5. STRUKTUR NAVIGASI SIDEBAR
+
+Gunakan `st.sidebar` sebagai navigasi utama.
+
+Buat tujuh halaman berikut:
+
+1. Dashboard Utama
+2. Eksplorasi Data
+3. Visualisasi Data
+4. Analisis Korelasi
+5. Simulasi Nasabah
+6. Pengelolaan Data
+7. Tentang Aplikasi
+
+Gunakan `st.radio` atau sistem navigasi Streamlit yang sesuai.
+
+Ketentuan:
+- Setiap menu harus menampilkan halaman sesuai fungsinya.
+- Jangan menampilkan seluruh fitur dalam satu halaman panjang.
+- Navigasi harus berjalan dengan baik.
+- Tampilkan menu dengan ikon yang sesuai.
+- Pertahankan dataset aktif dan hasil simulasi saat pengguna berpindah halaman.
+- Jangan menghilangkan hasil filter ketika pengguna berpindah halaman.
+- Gunakan struktur kode yang rapi agar mudah dipelihara.
+
+## 6. FITUR HALAMAN DASHBOARD UTAMA
+
+Buat dashboard utama yang menampilkan ringkasan kondisi dataset secara menarik.
+
+Gunakan empat kartu metrik menggunakan `st.metric` dan `st.columns`.
+
+Kartu metrik yang wajib ditampilkan:
+
+1. **Total Nasabah**
+   - Jumlah seluruh data nasabah yang sedang aktif.
+
+2. **Rata-rata Batas Kredit**
+   - Rata-rata nilai `Avg_Credit_Limit`.
+
+3. **Rata-rata Jumlah Kartu Kredit**
+   - Rata-rata nilai `Total_Credit_Cards`.
+
+4. **Aktivitas Interaksi Nasabah**
+   - Tampilkan rata-rata kunjungan bank.
+   - Tampilkan rata-rata kunjungan online.
+   - Tampilkan rata-rata panggilan layanan bank.
+
+Tambahkan informasi berikut:
+
+- Jumlah baris dataset.
+- Jumlah kolom dataset.
+- Jumlah data kosong.
+- Jumlah data duplikat.
+- Rata-rata batas kredit.
+- Nilai batas kredit minimum dan maksimum.
+- Ringkasan statistik menggunakan `st.table`.
+- Grafik ringkasan distribusi nasabah.
+- Deskripsi singkat mengenai kondisi dataset.
+
+Gunakan angka yang benar-benar dihitung dari dataset.
+
+Format angka secara konsisten agar mudah dibaca. Jangan menambahkan simbol mata uang tertentu apabila satuan mata uang tidak dapat dipastikan dari sumber dataset.
+
+Pastikan seluruh metrik menyesuaikan dataset aktif, termasuk apabila pengguna mengunggah dataset alternatif.
+
+## 7. FITUR HALAMAN EKSPLORASI DATA
+
+Buat halaman untuk melihat, memahami, dan mengeksplorasi dataset.
+
+Fitur wajib:
+
+### A. Tampilan Dataset
+
+- Gunakan `st.dataframe` untuk menampilkan dataset.
+- Berikan judul dan deskripsi tabel.
+- Tampilkan informasi jumlah baris dan kolom.
+- Pastikan tabel dapat di-scroll.
+- Berikan tampilan yang mudah dibaca.
+
+### B. Informasi Struktur Dataset
+
+Tampilkan:
+- Nama setiap kolom.
+- Tipe data.
+- Jumlah data.
+- Jumlah nilai kosong.
+- Jumlah nilai unik jika relevan.
+
+Gunakan `st.expander` untuk menampilkan informasi tambahan.
+
+Gunakan `st.json` untuk menampilkan struktur informasi dataset atau konfigurasi variabel.
+
+### C. Kamus Variabel
+
+Buat kamus variabel yang menjelaskan seluruh kolom:
+
+- `Sl_No`
+- `Customer Key`
+- `Avg_Credit_Limit`
+- `Total_Credit_Cards`
+- `Total_visits_bank`
+- `Total_visits_online`
+- `Total_calls_made`
+
+Jelaskan fungsi setiap variabel dengan bahasa yang mudah dipahami.
+
+### D. Statistik Deskriptif
+
+Gunakan Pandas `describe()`.
+
+Tampilkan:
+- Count.
+- Mean.
+- Standard deviation.
+- Minimum.
+- 25%.
+- Median atau 50%.
+- 75%.
+- Maximum.
+
+Gunakan tabel yang rapi.
+
+### E. Filter Interaktif
+
+Tambahkan filter interaktif pada halaman eksplorasi atau sidebar:
+
+1. Filter jumlah kartu kredit menggunakan `st.multiselect`.
+2. Filter jumlah kunjungan ke bank.
+3. Filter jumlah kunjungan online.
+4. Filter jumlah panggilan layanan bank.
+5. Filter batas kredit menggunakan `st.slider`.
+
+Ketentuan filter:
+
+- Semua filter harus benar-benar bekerja.
+- Filter dapat digunakan secara bersamaan.
+- Hasil filter harus memengaruhi tabel dan visualisasi yang relevan.
+- Simpan status filter di `st.session_state`.
+- Filter tetap konsisten ketika berpindah halaman.
+- Sediakan tombol reset filter.
+- Reset filter harus mengembalikan kondisi awal.
+- Hindari infinite rerun.
+- Jika tidak ada data yang cocok dengan filter, tampilkan `st.info` dengan pesan yang jelas.
+
+## 8. FITUR HALAMAN VISUALISASI DATA
+
+Buat halaman visualisasi yang menarik, profesional, dan mudah dipahami.
+
+Gunakan seluruh jenis visualisasi berikut.
+
+### A. Line Chart
+
+Gunakan `st.line_chart`.
+
+Tujuan:
+Menampilkan tren rata-rata batas kredit (`Avg_Credit_Limit`) berdasarkan jumlah kartu kredit (`Total_Credit_Cards`).
+
+Ketentuan:
+- Kelompokkan data berdasarkan jumlah kartu kredit.
+- Hitung rata-rata batas kredit untuk setiap kelompok.
+- Urutkan kategori secara numerik.
+- Berikan judul dan keterangan.
+- Jelaskan informasi yang ditampilkan.
+
+### B. Area Chart
+
+Gunakan `st.area_chart`.
+
+Tujuan:
+Menampilkan pola aktivitas interaksi nasabah berdasarkan:
+- `Total_visits_bank`
+- `Total_visits_online`
+- `Total_calls_made`
+
+Gunakan rata-rata aktivitas berdasarkan jumlah kartu kredit atau bentuk agregasi lain yang informatif.
+
+Pastikan kategori tersusun dengan benar.
+
+### C. Bar Chart
+
+Gunakan `st.bar_chart`.
+
+Tujuan:
+Membandingkan rata-rata batas kredit (`Avg_Credit_Limit`) berdasarkan jumlah kunjungan nasabah ke bank (`Total_visits_bank`).
+
+Ketentuan:
+- Kelompokkan berdasarkan jumlah kunjungan.
+- Hitung rata-rata batas kredit.
+- Urutkan kategori secara numerik.
+- Berikan judul dan penjelasan.
+
+### D. Altair Chart
+
+Gunakan `alt.Chart` dan `st.altair_chart`.
+
+Tujuan:
+Menampilkan hubungan antara aktivitas online (`Total_visits_online`) dengan batas kredit (`Avg_Credit_Limit`).
+
+Ketentuan:
+- Gunakan scatter plot.
+- Tambahkan tooltip.
+- Tampilkan informasi nilai variabel ketika titik grafik diarahkan atau dipilih.
+- Berikan judul dan keterangan sumbu.
+
+### E. Plotly Express
+
+Gunakan `plotly.express` dan `st.plotly_chart`.
+
+Buat dua visualisasi:
+
+1. Histogram untuk melihat distribusi batas kredit (`Avg_Credit_Limit`).
+2. Box plot untuk melihat persebaran data dan potensi outlier.
+
+Ketentuan seluruh visualisasi:
+
+- Setiap grafik memiliki judul.
+- Setiap grafik memiliki keterangan sumbu.
+- Gunakan warna yang konsisten.
+- Grafik harus menggunakan dataset aktif atau hasil filter sesuai konteks halaman.
+- Tambahkan penjelasan singkat di bawah setiap grafik.
+- Jangan menampilkan data buatan.
+- Pastikan grafik tidak menyebabkan aplikasi crash ketika data kosong.
+- Jika jumlah kategori terlalu sedikit, tampilkan grafik yang sesuai.
+- Jika data kosong, tampilkan informasi yang jelas.
+
+## 9. FITUR HALAMAN ANALISIS KORELASI
+
+Buat halaman khusus untuk menganalisis hubungan antarvariabel.
+
+Gunakan variabel numerik analitik berikut:
+
+- `Avg_Credit_Limit`
+- `Total_Credit_Cards`
+- `Total_visits_bank`
+- `Total_visits_online`
+- `Total_calls_made`
+
+Hitung matriks korelasi menggunakan:
+
+`df.corr(numeric_only=True)`
+
+Fitur wajib:
+
+1. Tampilkan matriks korelasi.
+2. Visualisasikan matriks menggunakan heatmap Matplotlib.
+3. Gunakan skala warna yang mudah dibaca.
+4. Tampilkan angka korelasi pada setiap sel heatmap apabila memungkinkan.
+5. Tampilkan nilai korelasi dalam bentuk tabel.
+6. Tambahkan interpretasi sederhana tentang hubungan positif, negatif, atau lemah antarvariabel.
+7. Tambahkan scatter plot hubungan batas kredit dengan jumlah kartu kredit.
+8. Tambahkan scatter plot hubungan aktivitas online dengan batas kredit.
+
+Ketentuan interpretasi:
+
+- Jelaskan hubungan antarvariabel secara objektif.
+- Gunakan nilai korelasi yang benar-benar dihitung.
+- Jangan membuat kesimpulan yang tidak didukung data.
+- Jangan menyatakan bahwa korelasi menunjukkan hubungan sebab-akibat.
+- Jelaskan bahwa korelasi hanya menggambarkan hubungan statistik antarvariabel.
+
+Jika data tidak mencukupi untuk menghitung korelasi, tampilkan pesan informasi yang sesuai.
+
+## 10. FITUR HALAMAN SIMULASI NASABAH
+
+Buat formulir interaktif dengan judul:
+
+**Simulasi Profil / Pengajuan Nasabah Baru**
+
+Gunakan:
+- `st.form`
+- `st.form_submit_button`
+
+Input formulir:
+
+1. Customer Key (`Customer Key`).
+2. Rata-rata Batas Kredit (`Avg_Credit_Limit`).
+3. Jumlah Kartu Kredit (`Total_Credit_Cards`).
+4. Jumlah Kunjungan ke Bank (`Total_visits_bank`).
+5. Jumlah Kunjungan Online (`Total_visits_online`).
+6. Jumlah Panggilan ke Layanan Bank (`Total_calls_made`).
+
+Ketentuan input:
+
+- Gunakan `st.text_input` untuk Customer Key karena merupakan identitas, bukan variabel perhitungan.
+- Gunakan `st.number_input` untuk input numerik.
+- Validasi semua input.
+- Pastikan nilai numerik tidak negatif.
+- Tentukan batas input yang wajar berdasarkan rentang data atau aturan formulir.
+- Tampilkan pesan kesalahan apabila input tidak valid.
+
+Setelah formulir dikirim:
+
+1. Simpan hasil simulasi terakhir di `st.session_state`.
+2. Tampilkan ringkasan profil nasabah.
+3. Bandingkan nilai profil simulasi dengan rata-rata dataset.
+4. Tampilkan grafik perbandingan sederhana.
+5. Berikan interpretasi berdasarkan nilai yang dimasukkan.
+6. Tampilkan pemberitahuan bahwa hasil simulasi hanya digunakan untuk eksplorasi data.
+
+PENTING:
+
+Dataset tidak menyediakan label persetujuan atau penolakan kredit.
+
+Karena itu:
+- Jangan membuat keputusan persetujuan kredit.
+- Jangan menyatakan bahwa sistem dapat menentukan kelayakan kredit secara resmi.
+- Jangan mengklaim simulasi sebagai penilaian risiko kredit yang tervalidasi.
+- Berikan keterangan bahwa simulasi bukan rekomendasi atau keputusan resmi perbankan.
+
+## 11. FITUR HALAMAN PENGELOLAAN DATA
+
+Buat halaman khusus untuk mengelola dataset.
+
+Halaman ini wajib memiliki empat fitur utama.
+
+### A. Upload CSV
+
+Gunakan `st.file_uploader`.
+
+Ketentuan:
+
+- Pengguna dapat mengunggah dataset CSV alternatif.
+- Validasi ekstensi file.
+- Pastikan file dapat dibaca menggunakan Pandas.
+- Periksa seluruh kolom wajib.
+- Periksa tipe data dan nilai yang tidak valid.
+- Tampilkan pesan `st.success`, `st.warning`, atau `st.error` sesuai kondisi.
+- Dataset hasil upload dapat digunakan untuk eksplorasi sementara.
+- Simpan dataset upload di `st.session_state`.
+- Jangan menimpa dataset asli secara otomatis.
+- Sediakan informasi nama file yang sedang digunakan.
+
+Jika file upload tidak sesuai struktur, jangan mengganti dataset aktif dengan file yang tidak valid.
+
+### B. Edit Data
+
+Gunakan `st.data_editor`.
+
+Ketentuan:
+
+- Pengguna dapat mengedit data secara interaktif.
+- Perubahan disimpan dalam `st.session_state`.
+- Pengguna dapat melihat hasil perubahan.
+- Tampilkan pemberitahuan ketika data berhasil diedit.
+- Jangan menyimpan perubahan ke file CSV asli secara otomatis.
+- Sediakan tombol untuk membatalkan perubahan atau mengembalikan data ke kondisi awal.
+
+### C. Download Data
+
+Gunakan `st.download_button`.
+
+Sediakan fitur unduh:
+
+1. Dataset aktif.
+2. Dataset hasil filter.
+3. Dataset yang telah diedit.
+
+Ketentuan:
+- Format file CSV.
+- Encoding UTF-8.
+- Nama file unduhan harus jelas.
+- Data yang diunduh harus sesuai dengan pilihan pengguna.
+- Jangan mengubah dataset asli saat proses download.
+
+### D. Reset Data
+
+Sediakan tombol reset untuk mengembalikan dataset ke kondisi awal.
+
+Ketentuan:
+- Dataset dikembalikan dari file `Credit Card Customer Data.csv`.
+- Hasil edit dan upload sementara dibersihkan sesuai pilihan reset.
+- Tampilkan konfirmasi atau pemberitahuan sebelum/sesudah reset.
+- Gunakan `st.session_state`.
+- Jangan menyebabkan infinite rerun.
+- Reset harus benar-benar mengembalikan dataset awal, bukan hanya mengubah tampilan.
+
+## 12. FITUR HALAMAN TENTANG APLIKASI
+
+Tampilkan informasi berikut:
+
+- Nama aplikasi.
+- Tujuan pembuatan aplikasi.
+- Identitas mahasiswa: Muhamad Ridwan Ramadhani.
+- NIM: 241011400477.
+- Jenis tugas: Tugas Individu.
+- Deskripsi dataset.
+- Jumlah baris dan kolom dataset sesuai informasi aktual.
+- Penjelasan teknologi yang digunakan.
+- Penjelasan fitur utama aplikasi.
+- Informasi bahwa aplikasi dibuat untuk tugas individu praktikum.
+
+Tambahkan keterangan bahwa aplikasi merupakan proyek akademik untuk eksplorasi dan analisis data, bukan sistem resmi perbankan.
+
+## 13. PENGELOLAAN SESSION STATE
+
+Gunakan `st.session_state` secara terstruktur untuk:
+
+- Menyimpan dataset awal.
+- Menyimpan dataset aktif.
+- Menyimpan dataset hasil upload.
+- Menyimpan hasil edit data.
+- Menyimpan hasil simulasi terakhir.
+- Mengelola status filter.
+- Menyimpan status reset.
+- Mengelola informasi sumber dataset yang sedang digunakan.
+
+Ketentuan:
+
+- Berikan nama key yang konsisten dan mudah dipahami.
+- Inisialisasi session state dengan aman.
+- Jangan menginisialisasi ulang data pengguna pada setiap rerun.
+- Pastikan data tetap tersedia ketika pengguna berpindah halaman.
+- Gunakan `st.rerun()` hanya apabila diperlukan.
+- Hindari infinite rerun.
+- Pastikan reset tidak menyebabkan konflik dengan widget key.
+- Pastikan hasil upload tidak hilang tanpa alasan ketika pengguna berpindah halaman.
+
+## 14. VALIDASI, PENANGANAN ERROR, DAN KEAMANAN
+
+Buat aplikasi yang tahan terhadap kesalahan input dan kondisi dataset yang tidak ideal.
+
+Ketentuan:
+
+1. Tangani file dataset yang tidak ditemukan.
+2. Tangani CSV yang rusak atau tidak dapat dibaca.
+3. Tangani kolom yang hilang.
+4. Tangani nilai kosong.
+5. Tangani nilai numerik yang tidak valid.
+6. Tangani dataset kosong.
+7. Tangani filter yang menghasilkan nol baris.
+8. Tangani kondisi ketika grafik tidak dapat dibuat.
+9. Tangani input simulasi yang tidak valid.
+10. Hindari aplikasi berhenti secara tiba-tiba karena kesalahan yang dapat ditangani.
+
+Gunakan pesan error yang jelas dan mudah dipahami pengguna.
+
+Jangan menampilkan traceback teknis yang panjang kepada pengguna biasa, kecuali ketika sedang melakukan debugging.
+
+### Keamanan dan Privasi Data
+
+Karena aplikasi akan dipublikasikan secara online:
+
+- Jangan menampilkan seluruh `Customer Key` secara terbuka pada dashboard publik.
+- Jika Customer Key ditampilkan pada tabel publik, sediakan opsi masking atau penyamaran.
+- Jangan menampilkan informasi identitas nasabah secara berlebihan.
+- Jangan memasukkan password, API key, token, atau informasi rahasia ke dalam kode.
+- Jangan menyimpan data pribadi pengguna tanpa persetujuan.
+- Jangan menganggap dataset otomatis aman untuk dipublikasikan.
+- Pastikan pengguna memiliki hak atau izin untuk memublikasikan dataset yang digunakan.
+- Jika dataset mengandung informasi yang bersifat pribadi atau rahasia, berikan peringatan agar dataset dianonimkan sebelum dipublikasikan.
+- Jangan mengunggah data sensitif ke repository publik.
+
+## 15. PENYEMPURNAAN USER EXPERIENCE
+
+Buat aplikasi terasa nyaman digunakan.
+
+Tambahkan:
+
+- `st.spinner` saat proses membaca, mengunggah, atau mengolah data yang membutuhkan waktu.
+- `st.success` setelah operasi berhasil.
+- `st.warning` untuk kondisi yang perlu diperhatikan.
+- `st.error` untuk kesalahan.
+- `st.info` untuk informasi dan kondisi data kosong.
+- Pesan konfirmasi yang jelas setelah pengguna melakukan tindakan.
+- Empty state yang rapi jika tidak ada data.
+- Label dan deskripsi yang mudah dipahami.
+- Format angka yang konsisten.
+- Nama tombol yang menjelaskan fungsinya.
+- Navigasi yang mudah dipahami.
+- Tampilan tabel dan grafik yang tidak terpotong.
+
+Pastikan semua tombol memiliki fungsi nyata. Jangan membuat tombol dekoratif yang tidak melakukan tindakan apa pun.
+
+## 16. STRUKTUR FILE PROJECT
+
+Buat struktur project sederhana berikut:
+
+```text
+credit-card-analysis/
+│
+├── app.py
+├── Credit Card Customer Data.csv
+├── requirements.txt
+├── README.md
+└── .gitignore
+```
+
+Ketentuan:
+
+- File utama wajib bernama `app.py`.
+- Semua fitur utama berada dalam satu file `app.py`.
+- Jangan memecah fitur utama ke banyak file Python.
+- Dataset harus menggunakan nama `Credit Card Customer Data.csv`.
+- Pastikan dataset berada pada direktori yang sama dengan `app.py`.
+- Buat `requirements.txt`.
+- Buat `README.md`.
+- Buat `.gitignore`.
+- Jangan memasukkan folder virtual environment ke repository.
+- Jangan memasukkan file sementara, cache, atau file rahasia ke repository.
+
+Isi `.gitignore` minimal mencakup:
+
+```text
+venv/
+env/
+.venv/
+__pycache__/
+*.pyc
+.streamlit/secrets.toml
+.DS_Store
+Thumbs.db
+```
+
+Jika dataset tidak boleh dipublikasikan, jangan memasukkannya ke repository publik. Jelaskan alternatif penyediaan dataset yang aman pada README.
+
+## 17. FILE REQUIREMENTS.TXT
+
+Buat file `requirements.txt` dengan dependency berikut:
+
+```text
+streamlit
+pandas
+numpy
+matplotlib
+altair
+plotly
+```
+
+Ketentuan:
+
+- Gunakan dependency yang benar-benar dibutuhkan.
+- Pastikan semua library dapat di-install.
+- Jangan menambahkan library yang tidak diperlukan.
+- Jika menggunakan versi tertentu untuk menjaga kompatibilitas, tuliskan versi yang sesuai dan telah diuji.
+
+## 18. README.MD DAN PETUNJUK MENJALANKAN APLIKASI
+
+Buat `README.md` yang profesional dan informatif.
+
+Isi README:
+
+1. Nama aplikasi.
+2. Deskripsi singkat aplikasi.
+3. Tujuan pembuatan aplikasi.
+4. Identitas mahasiswa.
+5. Teknologi yang digunakan.
+6. Fitur utama.
+7. Struktur folder project.
+8. Persyaratan instalasi.
+9. Cara menjalankan aplikasi secara lokal.
+10. Cara menggunakan setiap halaman.
+11. Cara mengganti atau mengunggah dataset.
+12. Cara mengatasi error umum.
+
+Tuliskan petunjuk instalasi:
+
+```bash
+pip install -r requirements.txt
+```
+
+Tuliskan perintah menjalankan aplikasi:
+
+```bash
+streamlit run app.py
+```
+
+Setelah aplikasi berjalan, pengguna dapat membuka alamat lokal yang ditampilkan Streamlit, umumnya:
+
+`http://localhost:8501`
+
+## 19. DEPLOYMENT KE GITHUB DAN STREAMLIT COMMUNITY CLOUD
+
+Pastikan aplikasi disiapkan agar dapat dipublikasikan secara online.
+
+Berikan panduan lengkap untuk:
+
+### A. GitHub
+
+1. Membuat akun atau masuk ke GitHub.
+2. Membuat repository baru.
+3. Menentukan repository publik atau privat sesuai kebutuhan.
+4. Mengunggah file project.
+5. Memastikan struktur folder sudah benar.
+6. Memastikan `app.py` berada pada direktori utama repository.
+7. Memastikan `requirements.txt` tersedia.
+8. Memastikan dataset tersedia dengan cara yang aman.
+9. Memastikan file rahasia tidak masuk repository.
+
+### B. Streamlit Community Cloud
+
+Berikan panduan:
+
+1. Membuka Streamlit Community Cloud melalui `https://share.streamlit.io`.
+2. Login menggunakan akun yang sesuai.
+3. Menghubungkan akun GitHub.
+4. Memilih repository project.
+5. Memilih branch.
+6. Memilih file utama `app.py`.
+7. Melakukan deployment.
+8. Menunggu proses instalasi dependency.
+9. Membuka URL aplikasi yang telah dipublikasikan.
+10. Memeriksa apakah aplikasi berjalan dengan baik.
+
+### C. Penanganan Error Deployment
+
+Jelaskan cara mengatasi:
+
+- Dataset tidak ditemukan.
+- Dependency gagal di-install.
+- Nama file tidak sesuai.
+- Kesalahan huruf besar dan kecil pada nama file.
+- Kesalahan path dataset.
+- Syntax error.
+- Aplikasi gagal dijalankan.
+- Aplikasi berjalan lokal tetapi gagal ketika online.
+
+Pastikan aplikasi tidak bergantung pada path absolut komputer lokal.
+
+**PENTING UNTUK PUBLIKASI:**
+
+Sebelum mengunggah dataset ke GitHub publik, pastikan dataset memang boleh dibagikan secara publik. Jika mengandung data yang tidak boleh dipublikasikan, jangan mengunggahnya. Siapkan cara penyediaan dataset yang aman dan jelaskan konfigurasi yang diperlukan.
+
+## 20. PENYEMPURNAAN FINAL UNTUK WEBSITE PRODUCTION DAN PUBLIC DEPLOYMENT
+
+Lakukan penyempurnaan berikut sebelum menyatakan aplikasi selesai.
+
+### A. Keamanan Data
+
+- Jangan menampilkan Customer Key secara penuh pada halaman publik jika tidak diperlukan.
+- Gunakan masking untuk identitas nasabah apabila data ditampilkan.
+- Pastikan dataset tidak berisi data pribadi atau rahasia yang dilarang dipublikasikan.
+- Jangan menyimpan perubahan pengguna secara permanen tanpa tindakan dan persetujuan yang jelas.
+- Jangan mengubah file CSV asli secara otomatis.
+- Berikan keterangan bahwa aplikasi merupakan aplikasi akademik dan bukan layanan resmi perbankan.
+
+### B. Penggunaan Customer Key
+
+- Gunakan `st.text_input` untuk Customer Key pada formulir simulasi.
+- Jangan menggunakan `st.number_input` untuk Customer Key.
+- Perlakukan Customer Key sebagai identifier, bukan nilai untuk perhitungan statistik.
+- Pertahankan format identifier termasuk kemungkinan angka nol di depan.
+- Jangan menggunakan Customer Key sebagai dasar keputusan kredit.
+
+### C. Akurasi Analisis
+
+- Semua metrik harus dihitung berdasarkan dataset aktif.
+- Semua grafik harus menggunakan data aktual.
+- Jangan memasukkan nilai contoh atau angka ilustrasi seolah-olah merupakan hasil dataset.
+- Urutkan kategori grafik secara numerik jika kategorinya berupa angka.
+- Jelaskan hasil analisis secara objektif.
+- Jangan membuat kesimpulan yang tidak didukung data.
+- Jangan menganggap hubungan korelasi sebagai hubungan sebab-akibat.
+- Jangan mengasumsikan satuan mata uang jika tidak diketahui.
+
+### D. Pengelolaan Path Dataset
+
+Gunakan pendekatan path yang mengacu pada lokasi `app.py`, bukan hanya mengandalkan working directory terminal.
+
+Pastikan aplikasi dapat berjalan ketika:
+- Dibuka dari folder project.
+- Dijalankan melalui terminal.
+- Dijalankan pada Streamlit Community Cloud.
+- Dipindahkan ke komputer lain dengan struktur folder yang sama.
+
+### E. Tampilan dan Responsivitas
+
+- Pastikan dashboard nyaman digunakan di desktop dan mobile.
+- Pastikan sidebar tidak mengganggu tampilan utama.
+- Pastikan tabel dapat di-scroll.
+- Pastikan grafik tidak terlalu kecil.
+- Pastikan teks dan angka mudah dibaca.
+- Pastikan semua komponen memiliki jarak yang konsisten.
+- Hindari tampilan yang terlalu padat.
+
+### F. Pengalaman Pengguna
+
+- Tampilkan loading indicator ketika proses membutuhkan waktu.
+- Tampilkan notifikasi ketika operasi berhasil.
+- Tampilkan pesan yang jelas ketika operasi gagal.
+- Sediakan empty state.
+- Pastikan tombol reset, upload, edit, dan download bekerja.
+- Pastikan tidak ada tombol yang hanya menjadi hiasan.
+
+## 21. STANDAR PENGUJIAN WAJIB
+
+Sebelum project dinyatakan selesai, lakukan pengujian nyata.
+
+Jangan hanya membaca kode atau menganggap aplikasi berjalan.
+
+Lakukan pengujian berikut:
+
+| No. | Pengujian | Hasil yang Diharapkan |
+|---|---|---|
+| 1 | Membaca dataset asli | Dataset berhasil dimuat |
+| 2 | Memeriksa struktur kolom | Seluruh kolom wajib tersedia |
+| 3 | Membuka Dashboard Utama | Seluruh metrik tampil |
+| 4 | Membuka Eksplorasi Data | Tabel dan statistik tampil |
+| 5 | Menggunakan filter | Data berubah sesuai filter |
+| 6 | Reset filter | Filter kembali ke kondisi awal |
+| 7 | Membuka Visualisasi Data | Seluruh grafik tampil |
+| 8 | Membuka Analisis Korelasi | Heatmap dan tabel korelasi tampil |
+| 9 | Mengirim formulir simulasi | Ringkasan simulasi muncul |
+| 10 | Upload CSV alternatif | Dataset valid dapat digunakan |
+| 11 | Upload CSV tidak valid | Pesan kesalahan muncul |
+| 12 | Mengedit data | Perubahan tampil dan tersimpan di session state |
+| 13 | Download CSV | File berhasil diunduh |
+| 14 | Reset dataset | Dataset kembali ke kondisi awal |
+| 15 | Dataset kosong | Aplikasi tidak crash |
+| 16 | File dataset tidak ditemukan | Pesan error dan petunjuk tampil |
+| 17 | Berpindah halaman | Dataset dan hasil simulasi tetap tersedia |
+| 18 | Tampilan mobile | Layout tetap nyaman digunakan |
+| 19 | Menjalankan aplikasi lokal | Aplikasi dapat berjalan |
+| 20 | Persiapan deployment | Struktur project siap dipublikasikan |
+
+Jika ditemukan error:
+- Perbaiki error tersebut.
+- Jalankan kembali aplikasi.
+- Ulangi pengujian yang berkaitan.
+- Jangan menyatakan pengujian berhasil apabila belum benar-benar dilakukan.
+
+## 22. OUTPUT AKHIR YANG WAJIB DIBERIKAN
+
+Setelah seluruh pekerjaan selesai, hasilkan:
+
+1. `app.py` lengkap dan siap dijalankan.
+2. `requirements.txt`.
+3. `README.md`.
+4. `.gitignore`.
+5. Struktur folder project.
+6. Panduan instalasi.
+7. Panduan menjalankan aplikasi secara lokal.
+8. Panduan penggunaan setiap halaman.
+9. Panduan upload dan pengelolaan dataset.
+10. Panduan deployment ke GitHub.
+11. Panduan deployment ke Streamlit Community Cloud.
+12. Ringkasan hasil pengujian aplikasi.
+13. Daftar error yang ditemukan dan cara perbaikannya, jika ada.
+14. Informasi tindakan manual yang masih perlu dilakukan oleh pengguna.
+
+Jika memungkinkan, berikan hasil dalam bentuk folder project yang dapat langsung dibuka dan dijalankan.
+
+## 23. PRIORITAS UTAMA
+
+Prioritas utama adalah membuat aplikasi analisis data kartu kredit yang:
+
+- Benar-benar berfungsi.
+- Menggunakan dataset asli.
+- Memiliki seluruh fitur yang diminta.
+- Memiliki desain modern dan profesional.
+- Mudah digunakan.
+- Responsif di berbagai perangkat.
+- Aman untuk dipublikasikan.
+- Dapat dijalankan secara lokal.
+- Siap di-deploy melalui GitHub dan Streamlit Community Cloud.
+- Cocok untuk presentasi dan pengumpulan tugas individu kuliah.
+
+Jangan hanya membuat tampilan dashboard tanpa fungsi.
+
+Jangan menghilangkan fitur yang telah diminta.
+
+Jangan mengganti dataset asli dengan data buatan.
+
+Jangan mengarang hasil pengujian.
+
+Jangan menyatakan aplikasi sudah siap dipublikasikan sebelum melakukan pemeriksaan yang diperlukan.
+
+**MULAI PEKERJAAN DENGAN LANGKAH BERIKUT:**
+
+1. Periksa workspace Antigravity dan cari dataset `Credit Card Customer Data.csv`.
+2. Periksa struktur dataset, nama kolom, jumlah baris, tipe data, dan kondisi data.
+3. Rancang struktur aplikasi berdasarkan seluruh ketentuan di atas.
+4. Buat `app.py` sebagai file utama.
+5. Buat `requirements.txt`, `README.md`, dan `.gitignore`.
+6. Jalankan aplikasi dan lakukan pengujian.
+7. Perbaiki seluruh error yang ditemukan.
+8. Pastikan fitur dan navigasi berfungsi.
+9. Pastikan aplikasi dapat dijalankan secara lokal.
+10. Siapkan project untuk deployment online.
+11. Berikan hasil akhir beserta petunjuk menjalankan dan memublikasikannya.
+
+**HASIL AKHIR YANG DIHARAPKAN: APLIKASI STREAMLIT ANALISIS KARTU KREDIT NASABAH YANG LENGKAP, PROFESIONAL, INTERAKTIF, BERFUNGSI DENGAN DATASET ASLI, DAN SIAP DIPUBLIKASIKAN SECARA ONLINE SETELAH PEMERIKSAAN KEAMANAN DATA.**
