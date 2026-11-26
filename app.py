@@ -968,7 +968,7 @@ elif selected_page == "🔗 Analisis Korelasi":
 
         with col_tbl:
             st.markdown("### 📋 Tabel Nilai Korelasi Pearson")
-            st.dataframe(corr_matrix.style.background_cmap(cmap="Blues").format("{:.3f}"), use_container_width=True)
+            st.dataframe(corr_matrix.style.background_gradient(cmap="Blues").format("{:.3f}"), use_container_width=True)
 
             st.markdown("### 💡 Interpretasi Objektif Korelasi")
             st.info(
@@ -990,7 +990,6 @@ elif selected_page == "🔗 Analisis Korelasi":
                 active_df,
                 x="Total_Credit_Cards",
                 y="Avg_Credit_Limit",
-                trendline="ols",
                 color_discrete_sequence=["#1E3A8A"],
                 title="Batas Kredit vs Jumlah Kartu Kredit",
                 labels={"Total_Credit_Cards": "Jumlah Kartu Kredit", "Avg_Credit_Limit": "Rata-rata Batas Kredit"},
@@ -1003,7 +1002,6 @@ elif selected_page == "🔗 Analisis Korelasi":
                 active_df,
                 x="Total_visits_online",
                 y="Avg_Credit_Limit",
-                trendline="ols",
                 color_discrete_sequence=["#2563EB"],
                 title="Batas Kredit vs Kunjungan Online",
                 labels={"Total_visits_online": "Kunjungan Layanan Online", "Avg_Credit_Limit": "Rata-rata Batas Kredit"},
